@@ -97,11 +97,12 @@ export default function Users() {
   if (error) return <div className="pt-6">Error: {error.message}</div>
 
   return (
-    <div className="pt-6">
+    <div className="mt-6">
       <Search
         value={search}
         onChange={handleSearchChange}
         placeholder="Search by name..."
+        addButtonLabel="User"
       />
       <div className="relative mt-6">
         {isFetching && (

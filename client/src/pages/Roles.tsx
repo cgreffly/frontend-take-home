@@ -1,17 +1,21 @@
 import { useState } from 'react'
 import Search from '../components/Search'
 import Table, { type Column } from '../components/Table'
-import { useRoles } from '../features/roles/queries'
+import { useRenameRole, useRoles } from '../features/roles/queries'
 import { formatDate } from '../lib/formatDate'
 import { useDebouncedValue } from '../lib/useDebouncedValue'
 import type { Role } from '../types/role'
 import { Loader2 } from 'lucide-react'
+import ActionsMenu from '../components/ActionsMenu'
+import RenameRoleModal from '../components/RenameRoleModal'
 
 export default function Roles() {
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
   // Debounce the search input to prevent excessive API calls
   const debouncedSearch = useDebouncedValue(search, 250)
+  const [roleToEdit, setRoleToEdit] = useState<Role | null>(null)
+  const { mutate: renameRole, isPending: isRenaming } = useRenameRole()
 
   const handleSearchChange = (value: string) => {
     setSearch(value)
@@ -26,12 +30,29 @@ export default function Roles() {
   } = useRoles({ page, search: debouncedSearch || undefined })
 
   const columns: Column<Role>[] = [
-    { key: 'name', header: 'Name', accessor: 'name' },
+    { key: 'name', header: 'Role', accessor: 'name' },
     { key: 'description', header: 'Description', accessor: 'description' },
     {
       key: 'lastUpdated',
       header: 'Last Updated',
       accessor: (role: Role) => formatDate(role.updatedAt),
+    },
+    {
+      key: 'actions',
+      header: '',
+      accessor: (role: Role) => (
+        <div className="flex items-center justify-end min-w-[50px]">
+          <ActionsMenu
+            label="Role actions"
+            items={[
+              {
+                label: 'Rename role',
+                onSelect: () => setRoleToEdit(role),
+              },
+            ]}
+          />
+        </div>
+      ),
     },
   ]
 
@@ -46,13 +67,14 @@ export default function Roles() {
   if (error) return <div className="pt-6">Error: {error.message}</div>
 
   return (
-    <div className="pt-6">
+    <div className="mt-6">
       <Search
         value={search}
         onChange={handleSearchChange}
         placeholder="Search by role..."
+        addButtonLabel="Role"
       />
-      <div className="relative">
+      <div className="relative mt-6">
         {isFetching && (
           <div className="absolute inset-0 flex items-center justify-center bg-white/70 z-10">
             <Loader2 className="h-15 w-15 animate-spin text-brand-purple" />
@@ -65,6 +87,21 @@ export default function Roles() {
           emptyMessage="No roles found"
         />
       </div>
+
+      <RenameRoleModal
+        open={roleToEdit !== null}
+        onOpenChange={(open) => {
+          if (!open) setRoleToEdit(null)
+        }}
+        currentName={roleToEdit?.name ?? ''}
+        isPending={isRenaming}
+        onConfirm={(newName) =>
+          renameRole(
+            { id: roleToEdit?.id ?? '', name: newName },
+            { onSuccess: () => setRoleToEdit(null) }
+          )
+        }
+      />
     </div>
   )
 }

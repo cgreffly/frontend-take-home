@@ -4,12 +4,14 @@ type SearchProps = {
   value: string
   onChange: (value: string) => void
   placeholder?: string
+  addButtonLabel?: string
 }
 
 export default function Search({
   value,
   onChange,
   placeholder = 'Search',
+  addButtonLabel = 'User',
 }: SearchProps) {
   return (
     <div className="flex items-stretch gap-2 text-sm">
@@ -25,7 +27,7 @@ export default function Search({
       </div>
       <button className="flex items-center gap-2 bg-brand-purple text-white px-4 py-2 rounded-md whitespace-nowrap cursor-pointer hover:bg-brand-purple-dark">
         <PlusIcon className="w-5 h-5" />
-        Add User
+        Add {addButtonLabel}
       </button>
     </div>
   )
