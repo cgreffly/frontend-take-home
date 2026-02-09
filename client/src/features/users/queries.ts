@@ -1,9 +1,10 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, keepPreviousData } from '@tanstack/react-query'
 import { getUsers } from '../../lib/api'
 
-export const useUsers = () => {
+export const useUsers = (params?: { page?: number; search?: string }) => {
   return useQuery({
-    queryKey: ['users'],
-    queryFn: () => getUsers(),
+    queryKey: ['users', params],
+    queryFn: () => getUsers(params),
+    placeholderData: keepPreviousData,
   })
 }

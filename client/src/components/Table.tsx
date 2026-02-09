@@ -37,7 +37,7 @@ export default function Table<T>({
               <th
                 key={col.key ?? col.header}
                 scope="col"
-                className="px-3 py-2 align-middle"
+                className="px-3 py-3 align-middle"
               >
                 {col.header}
               </th>
@@ -60,7 +60,7 @@ export default function Table<T>({
                 {columns.map((col) => (
                   <td
                     key={col.key ?? col.header}
-                    className="px-3 py-2 align-middle"
+                    className="px-3 py-3 align-middle"
                   >
                     {getCellValue(row, col.accessor)}
                   </td>
