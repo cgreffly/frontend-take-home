@@ -12,7 +12,7 @@ export default function Search({
   placeholder = 'Search',
 }: SearchProps) {
   return (
-    <div className="flex items-stretch gap-2 text-sm mb-4">
+    <div className="flex items-stretch gap-2 text-sm">
       <div className="flex items-center gap-2 w-full rounded-md border border-gray-200 px-4">
         <SearchIcon className="w-4 h-4 text-gray-300" />
         <input

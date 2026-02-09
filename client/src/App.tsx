@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { Toaster } from 'sonner'
 import MainLayout from './layouts/MainLayout'
 import Users from './pages/Users'
 import Roles from './pages/Roles'
@@ -6,6 +7,7 @@ import Roles from './pages/Roles'
 function App() {
   return (
     <BrowserRouter>
+      <Toaster position="bottom-right" richColors />
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/users" element={<Users />} />

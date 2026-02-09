@@ -1,17 +1,20 @@
 import type { User } from '../types'
 import Table, { type Column } from '../components/Table'
 import Avatar from '../components/Avatar'
-import { useUsers } from '../features/users/queries'
+import { useDeleteUser, useUsers } from '../features/users/queries'
 import { useRoles } from '../features/roles/queries'
 import { useMemo, useState } from 'react'
 import { formatDate } from '../lib/formatDate'
 import Search from '../components/Search'
 import { useDebouncedValue } from '../lib/useDebouncedValue'
 import { Loader2 } from 'lucide-react'
+import ActionsMenu from '../components/ActionsMenu'
+import DeleteUserModal from '../components/DeleteUserModal'
 
 export default function Users() {
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
+  const [userToDelete, setUserToDelete] = useState<User | null>(null)
   // Debounce the search input to prevent excessive API calls
   const debouncedSearch = useDebouncedValue(search, 250)
 
@@ -27,6 +30,8 @@ export default function Users() {
     error,
   } = useUsers({ page, search: debouncedSearch || undefined })
   const { data: roleData } = useRoles()
+
+  const { mutate: deleteUser } = useDeleteUser()
 
   const getRoleName = useMemo(() => {
     return (roleId: string) => {
@@ -58,6 +63,27 @@ export default function Users() {
       header: 'Joined',
       accessor: (user: User) => formatDate(user.createdAt),
     },
+    {
+      key: 'actions',
+      header: '',
+      accessor: (user: User) => (
+        <div className="flex items-center justify-end">
+          <ActionsMenu
+            label="User actions"
+            items={[
+              {
+                label: 'Edit user',
+                onSelect: () => console.log('Edit user', user.id),
+              },
+              {
+                label: 'Delete user',
+                onSelect: () => setUserToDelete(user),
+              },
+            ]}
+          />
+        </div>
+      ),
+    },
   ]
 
   const getRowId = (user: User) => user.id
@@ -77,7 +103,7 @@ export default function Users() {
         onChange={handleSearchChange}
         placeholder="Search by name..."
       />
-      <div className="relative">
+      <div className="relative mt-6">
         {isFetching && (
           <div className="absolute inset-0 flex items-center justify-center bg-white/70 z-10">
             <Loader2 className="h-15 w-15 animate-spin text-brand-purple" />
@@ -90,6 +116,17 @@ export default function Users() {
           emptyMessage="No users found"
         />
       </div>
+
+      <DeleteUserModal
+        open={userToDelete !== null}
+        onOpenChange={(open) => {
+          if (!open) setUserToDelete(null)
+        }}
+        userName={
+          userToDelete ? `${userToDelete.first} ${userToDelete.last}` : ''
+        }
+        onConfirm={() => deleteUser(userToDelete?.id ?? '')}
+      />
     </div>
   )
 }
