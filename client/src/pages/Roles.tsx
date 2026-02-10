@@ -8,6 +8,7 @@ import type { Role } from '../types/role'
 import { Loader2 } from 'lucide-react'
 import ActionsMenu from '../components/ActionsMenu'
 import RenameRoleModal from '../components/RenameRoleModal'
+import ErrorState from '../components/ErrorState'
 
 export default function Roles() {
   const [search, setSearch] = useState('')
@@ -27,6 +28,7 @@ export default function Roles() {
     isLoading,
     isFetching,
     error,
+    refetch,
   } = useRoles({ page, search: debouncedSearch || undefined })
 
   const columns: Column<Role>[] = [
@@ -65,16 +67,14 @@ export default function Roles() {
         role="status"
         aria-label="Loading roles"
       >
-        <Loader2 className="w-20 h-20 animate-spin text-brand-purple" aria-hidden="true" />
+        <Loader2
+          className="w-20 h-20 animate-spin text-brand-purple"
+          aria-hidden="true"
+        />
         <span className="sr-only">Loading roles</span>
       </div>
     )
-  if (error)
-    return (
-      <div className="pt-6" role="alert">
-        Error: {error.message}
-      </div>
-    )
+  if (error) return <ErrorState onRetry={() => refetch()} />
 
   return (
     <div className="mt-6">
@@ -91,17 +91,26 @@ export default function Roles() {
             role="status"
             aria-label="Refreshing roles"
           >
-            <Loader2 className="h-15 w-15 animate-spin text-brand-purple" aria-hidden="true" />
+            <Loader2
+              className="h-15 w-15 animate-spin text-brand-purple"
+              aria-hidden="true"
+            />
             <span className="sr-only">Refreshing roles</span>
           </div>
         )}
-        <Table
-          columns={columns}
-          data={roleData?.data ?? []}
-          getRowId={getRowId}
-          emptyMessage="No roles found"
-          aria-label="Roles"
-        />
+        {roleData?.data && roleData.data.length > 0 ? (
+          <Table
+            columns={columns}
+            data={roleData?.data ?? []}
+            getRowId={getRowId}
+            emptyMessage="No roles found"
+            aria-label="Roles"
+          />
+        ) : (
+          <div className="px-3 py-6 text-center" role="status">
+            No roles found
+          </div>
+        )}
       </div>
 
       <RenameRoleModal

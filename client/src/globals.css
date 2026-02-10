@@ -1,7 +1,6 @@
 @import 'tailwindcss';
 
 @theme {
-  --font-sans: 'Arial', sans-serif;
   --color-brand-purple: #6565ec;
   --color-brand-purple-dark: #5050bc;
   --color-white: #ffffff;

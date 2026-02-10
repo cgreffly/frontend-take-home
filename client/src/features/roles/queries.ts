@@ -4,7 +4,7 @@ import {
   useQueryClient,
   useMutation,
 } from '@tanstack/react-query'
-import { getRoles, renameRole } from '../../lib/api'
+import { ApiError, getRoles, renameRole } from '../../lib/api'
 import { toast } from 'sonner'
 
 export const useRoles = (params?: { page?: number; search?: string }) => {
@@ -26,7 +26,11 @@ export function useRenameRole() {
       toast.success('Role renamed successfully')
     },
     onError: (error) => {
-      toast.error(error.message || 'Failed to rename role')
+      if (error instanceof ApiError && error.status === 400) {
+        toast.error(error.message)
+      } else {
+        toast.error('Failed to rename role. Please try again.')
+      }
     },
   })
 }

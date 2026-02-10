@@ -8,6 +8,16 @@ import type {
 
 const API_BASE = import.meta.env.VITE_API_BASE
 
+export class ApiError extends Error {
+  status: number
+
+  constructor(status: number, message: string) {
+    super(message)
+    this.name = 'ApiError'
+    this.status = status
+  }
+}
+
 // reusable function for API requests
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
@@ -24,7 +34,7 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
     } catch {
       // response body wasn't JSON, use raw text
     }
-    throw new Error(message)
+    throw new ApiError(res.status, message)
   }
 
   const contentType = res.headers.get('content-type') ?? ''

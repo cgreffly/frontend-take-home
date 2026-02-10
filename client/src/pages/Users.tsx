@@ -10,6 +10,7 @@ import { useDebouncedValue } from '../lib/useDebouncedValue'
 import { Loader2 } from 'lucide-react'
 import ActionsMenu from '../components/ActionsMenu'
 import DeleteUserModal from '../components/DeleteUserModal'
+import ErrorState from '../components/ErrorState'
 
 export default function Users() {
   const [search, setSearch] = useState('')
@@ -28,6 +29,7 @@ export default function Users() {
     isLoading,
     isFetching,
     error,
+    refetch,
   } = useUsers({ page, search: debouncedSearch || undefined })
   const { data: roleData } = useRoles()
 
@@ -85,7 +87,6 @@ export default function Users() {
       ),
     },
   ]
-
   const getRowId = (user: User) => user.id
 
   if (isLoading)
@@ -95,16 +96,14 @@ export default function Users() {
         role="status"
         aria-label="Loading users"
       >
-        <Loader2 className="w-20 h-20 animate-spin text-brand-purple" aria-hidden="true" />
+        <Loader2
+          className="w-20 h-20 animate-spin text-brand-purple"
+          aria-hidden="true"
+        />
         <span className="sr-only">Loading users</span>
       </div>
     )
-  if (error)
-    return (
-      <div className="pt-6" role="alert">
-        Error: {error.message}
-      </div>
-    )
+  if (error) return <ErrorState onRetry={() => refetch()} />
 
   return (
     <div className="mt-6">
@@ -121,17 +120,26 @@ export default function Users() {
             role="status"
             aria-label="Refreshing users"
           >
-            <Loader2 className="h-15 w-15 animate-spin text-brand-purple" aria-hidden="true" />
+            <Loader2
+              className="h-15 w-15 animate-spin text-brand-purple"
+              aria-hidden="true"
+            />
             <span className="sr-only">Refreshing users</span>
           </div>
         )}
-        <Table
-          columns={columns}
-          data={userData?.data ?? []}
-          getRowId={getRowId}
-          emptyMessage="No users found"
-          aria-label="Users"
-        />
+        {userData?.data && userData.data.length > 0 ? (
+          <Table
+            columns={columns}
+            data={userData?.data ?? []}
+            getRowId={getRowId}
+            emptyMessage="No users found"
+            aria-label="Users"
+          />
+        ) : (
+          <div className="px-3 py-6 text-center" role="status">
+            No users found
+          </div>
+        )}
       </div>
 
       <DeleteUserModal
