@@ -11,3 +11,27 @@
   --color-gray-300: #737389;
   --color-gray-400: #4f4f5e;
 }
+
+.DialogOverlay[data-state='open'] {
+  animation: fadeIn 300ms ease-out forwards;
+}
+.DialogOverlay[data-state='closed'] {
+  animation: fadeOut 300ms ease-in forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

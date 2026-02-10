@@ -16,7 +16,7 @@ export default function Modal({
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-black/40 data-[state=open]:animate-overlay-in data-[state=closed]:animate-overlay-out" />
+        <Dialog.Overlay className="DialogOverlay fixed inset-0 bg-black/40" />
         <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg rounded-xl bg-white p-6 shadow-lg focus:outline-none data-[state=open]:animate-content-in data-[state=closed]:animate-content-out">
           <Dialog.Title className="text-xl font-bold text-gray-400">
             {title}

@@ -2,6 +2,7 @@ type Column<T> = {
   key: string
   header: React.ReactNode
   accessor: keyof T | ((row: T) => React.ReactNode)
+  width?: string
 }
 
 type TableProps<T> = {
@@ -41,7 +42,7 @@ export default function Table<T>({
   const showPagination = onPrevPage || onNextPage
   return (
     <div className="overflow-x-auto rounded-lg border border-gray-200">
-      <table className="w-full text-sm text-gray-400" aria-label={ariaLabel}>
+      <table className="w-full table-fixed text-sm text-gray-400" aria-label={ariaLabel}>
         <thead>
           <tr className="text-left font-medium bg-gray-100 border-b border-gray-200">
             {columns.map((col) => (
@@ -49,6 +50,7 @@ export default function Table<T>({
                 key={col.key ?? col.header}
                 scope="col"
                 className="px-3 py-3 align-middle"
+                style={col.width ? { width: col.width } : undefined}
               >
                 {col.header || <span className="sr-only">Actions</span>}
               </th>

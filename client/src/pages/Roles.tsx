@@ -42,6 +42,7 @@ export default function Roles() {
     {
       key: 'actions',
       header: '',
+      width: '60px',
       accessor: (role: Role) => (
         <div className="flex items-center justify-end min-w-[50px]">
           <ActionsMenu
@@ -84,19 +85,17 @@ export default function Roles() {
         addButtonLabel="Role"
       />
       <div className="relative mt-6">
-        {isFetching && (
-          <div
-            className="absolute inset-0 flex items-center justify-center bg-white/70 z-10"
-            role="status"
-            aria-label="Refreshing roles"
-          >
-            <Loader2
-              className="h-15 w-15 animate-spin text-brand-purple"
-              aria-hidden="true"
-            />
-            <span className="sr-only">Refreshing roles</span>
-          </div>
-        )}
+        <div
+          className={`absolute inset-0 flex items-center justify-center bg-white/70 z-10 transition-opacity duration-300 ${isFetching ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+          role="status"
+          aria-label="Refreshing roles"
+        >
+          <Loader2
+            className="h-15 w-15 animate-spin text-brand-purple"
+            aria-hidden="true"
+          />
+          <span className="sr-only">Refreshing roles</span>
+        </div>
         {roleData?.data && roleData.data.length > 0 ? (
           <Table
             columns={columns}
