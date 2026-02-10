@@ -19,19 +19,21 @@ export default function MainLayout() {
           navigate(tabs.find((tab) => tab.value === value)?.path || '/users')
         }
       >
-        <Tabs.List className="flex border-b border-gray-200">
+        <Tabs.List className="flex border-b border-gray-200" aria-label="Main navigation">
           {tabs.map((tab) => (
             <Tabs.Trigger
               key={tab.value}
               value={tab.value}
-              className="px-4 py-2 text-sm border-b-2 border-transparent -mb-px data-[state=active]:border-brand-purple data-[state=active]:text-black"
+              className="px-4 py-2 text-sm border-b-2 border-transparent -mb-px data-[state=active]:border-brand-purple data-[state=active]:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple focus-visible:rounded-sm"
             >
               {tab.label}
             </Tabs.Trigger>
           ))}
         </Tabs.List>
         {/* Where matching child route is rendered */}
-        <Outlet />
+        <main>
+          <Outlet />
+        </main>
       </Tabs.Root>
     </div>
   )

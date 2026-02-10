@@ -31,3 +31,5 @@ export default function Modal({
 export function ModalClose({ children }: { children: React.ReactNode }) {
   return <Dialog.Close asChild>{children}</Dialog.Close>
 }
+
+export const ModalDescription = Dialog.Description

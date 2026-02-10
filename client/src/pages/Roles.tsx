@@ -60,11 +60,21 @@ export default function Roles() {
 
   if (isLoading)
     return (
-      <div className="flex items-center justify-center min-h-[50vh]">
-        <Loader2 className="w-20 h-20 animate-spin text-brand-purple" />
+      <div
+        className="flex items-center justify-center min-h-[50vh]"
+        role="status"
+        aria-label="Loading roles"
+      >
+        <Loader2 className="w-20 h-20 animate-spin text-brand-purple" aria-hidden="true" />
+        <span className="sr-only">Loading roles</span>
       </div>
     )
-  if (error) return <div className="pt-6">Error: {error.message}</div>
+  if (error)
+    return (
+      <div className="pt-6" role="alert">
+        Error: {error.message}
+      </div>
+    )
 
   return (
     <div className="mt-6">
@@ -76,8 +86,13 @@ export default function Roles() {
       />
       <div className="relative mt-6">
         {isFetching && (
-          <div className="absolute inset-0 flex items-center justify-center bg-white/70 z-10">
-            <Loader2 className="h-15 w-15 animate-spin text-brand-purple" />
+          <div
+            className="absolute inset-0 flex items-center justify-center bg-white/70 z-10"
+            role="status"
+            aria-label="Refreshing roles"
+          >
+            <Loader2 className="h-15 w-15 animate-spin text-brand-purple" aria-hidden="true" />
+            <span className="sr-only">Refreshing roles</span>
           </div>
         )}
         <Table
@@ -85,6 +100,7 @@ export default function Roles() {
           data={roleData?.data ?? []}
           getRowId={getRowId}
           emptyMessage="No roles found"
+          aria-label="Roles"
         />
       </div>
 
