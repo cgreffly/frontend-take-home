@@ -75,6 +75,7 @@ export default function Users() {
             label="User actions"
             items={[
               {
+                // not wired up yet, but wanted to include this to match the design
                 label: 'Edit user',
                 onSelect: () => console.log('Edit user', user.id),
               },
