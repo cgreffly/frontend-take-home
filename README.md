@@ -1,6 +1,12 @@
 # Frontend Take-Home Assignment
 
-Run with: npm run dev
+## How to run the app
+
+In the server folder:
+npm run api
+
+In the client folder:
+npm run dev
 
 ## Future / Real World Improvements
 
@@ -21,3 +27,5 @@ My error and empty states are pretty bare bones, simple text and toast notificat
 ### Styling
 
 I decided to use Radix Primitives instead of Themes because I wanted to avoid overrides and I like the blank slate flexibility. I also use Radix Primatives at my current job and feel more comfortable with them, but I could see how Themes would make for less clutter on the pages if we were good about not doing overrides :)
+
+If we expected users to be using these pages on mobile devices, I would spend more time on the mobile styling of the tables. I'd add a bit more padding between columns and make the columns wider when there's more text in the data of that column.

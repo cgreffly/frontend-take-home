@@ -40,7 +40,7 @@ export default function Table<T>({
 }: TableProps<T>) {
   const showPagination = onPrevPage || onNextPage
   return (
-    <div className="overflow-hidden rounded-lg border border-gray-200">
+    <div className="overflow-x-auto rounded-lg border border-gray-200">
       <table className="w-full text-sm text-gray-400" aria-label={ariaLabel}>
         <thead>
           <tr className="text-left font-medium bg-gray-100 border-b border-gray-200">

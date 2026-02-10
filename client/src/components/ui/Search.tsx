@@ -30,7 +30,7 @@ export default function Search({
         />
       </div>
       <button
-        className="flex items-center gap-2 bg-brand-purple text-white px-4 py-2 rounded-md whitespace-nowrap cursor-pointer hover:bg-brand-purple-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple focus-visible:ring-offset-2"
+        className="flex items-center gap-2 bg-brand-purple text-white px-2 sm:px-4 py-2 rounded-md whitespace-nowrap cursor-pointer hover:bg-brand-purple-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple focus-visible:ring-offset-2"
         aria-label={`Add ${addButtonLabel}`}
       >
         <PlusIcon className="w-5 h-5" aria-hidden="true" />
