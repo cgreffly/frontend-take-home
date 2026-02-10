@@ -10,6 +10,10 @@ type TableProps<T> = {
   getRowId: (row: T) => string
   emptyMessage?: string
   'aria-label'?: string
+  onPrevPage?: () => void
+  onNextPage?: () => void
+  hasPrevPage?: boolean
+  hasNextPage?: boolean
 }
 
 function getCellValue<T>(
@@ -29,7 +33,12 @@ export default function Table<T>({
   getRowId,
   emptyMessage = 'No results',
   'aria-label': ariaLabel,
+  onPrevPage,
+  onNextPage,
+  hasPrevPage,
+  hasNextPage,
 }: TableProps<T>) {
+  const showPagination = onPrevPage || onNextPage
   return (
     <div className="overflow-hidden rounded-lg border border-gray-200">
       <table className="w-full text-sm text-gray-400" aria-label={ariaLabel}>
@@ -41,9 +50,7 @@ export default function Table<T>({
                 scope="col"
                 className="px-3 py-3 align-middle"
               >
-                {col.header || (
-                  <span className="sr-only">Actions</span>
-                )}
+                {col.header || <span className="sr-only">Actions</span>}
               </th>
             ))}
           </tr>
@@ -77,6 +84,38 @@ export default function Table<T>({
             ))
           )}
         </tbody>
+        {showPagination && (
+          <tfoot>
+            <tr className="border-t border-gray-200 bg-gray-100">
+              <td colSpan={columns.length} className="px-3 py-2">
+                <div className="flex justify-end gap-2">
+                  {[
+                    {
+                      label: 'Previous',
+                      onClick: onPrevPage,
+                      disabled: !hasPrevPage,
+                    },
+                    {
+                      label: 'Next',
+                      onClick: onNextPage,
+                      disabled: !hasNextPage,
+                    },
+                  ].map((btn) => (
+                    <button
+                      key={btn.label}
+                      type="button"
+                      onClick={btn.onClick}
+                      disabled={btn.disabled}
+                      className="rounded border-gray-300 bg-white px-2 py-1 text-xs font-medium text-gray-700 hover:bg-gray-200 enabled:border enabled:border-gray-300 enabled:cursor-pointer disabled:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      {btn.label}
+                    </button>
+                  ))}
+                </div>
+              </td>
+            </tr>
+          </tfoot>
+        )}
       </table>
     </div>
   )

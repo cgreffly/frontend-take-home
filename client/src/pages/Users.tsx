@@ -134,6 +134,10 @@ export default function Users() {
             getRowId={getRowId}
             emptyMessage="No users found"
             aria-label="Users"
+            hasPrevPage={userData?.prev !== null}
+            hasNextPage={userData?.next !== null}
+            onPrevPage={() => setPage((p) => Math.max(1, p - 1))}
+            onNextPage={() => setPage((p) => p + 1)}
           />
         ) : (
           <div className="px-3 py-6 text-center" role="status">
@@ -153,7 +157,12 @@ export default function Users() {
         isPending={isDeleting}
         onConfirm={() =>
           deleteUser(userToDelete?.id ?? '', {
-            onSuccess: () => setUserToDelete(null),
+            onSuccess: () => {
+              setUserToDelete(null)
+              if (userData?.data.length === 1 && page > 1) {
+                setPage(1)
+              }
+            },
           })
         }
       />

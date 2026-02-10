@@ -105,6 +105,10 @@ export default function Roles() {
             getRowId={getRowId}
             emptyMessage="No roles found"
             aria-label="Roles"
+            hasPrevPage={roleData?.prev !== null}
+            hasNextPage={roleData?.next !== null}
+            onPrevPage={() => setPage((p) => Math.max(1, p - 1))}
+            onNextPage={() => setPage((p) => p + 1)}
           />
         ) : (
           <div className="px-3 py-6 text-center" role="status">
