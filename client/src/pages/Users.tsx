@@ -33,7 +33,7 @@ export default function Users() {
   } = useUsers({ page, search: debouncedSearch || undefined })
   const { data: roleData } = useRoles()
 
-  const { mutate: deleteUser } = useDeleteUser()
+  const { mutate: deleteUser, isPending: isDeleting } = useDeleteUser()
 
   const getRoleName = useMemo(() => {
     return (roleId: string) => {
@@ -150,7 +150,12 @@ export default function Users() {
         userName={
           userToDelete ? `${userToDelete.first} ${userToDelete.last}` : ''
         }
-        onConfirm={() => deleteUser(userToDelete?.id ?? '')}
+        isPending={isDeleting}
+        onConfirm={() =>
+          deleteUser(userToDelete?.id ?? '', {
+            onSuccess: () => setUserToDelete(null),
+          })
+        }
       />
     </div>
   )
