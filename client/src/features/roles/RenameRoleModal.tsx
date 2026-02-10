@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Modal, { ModalClose, ModalDescription } from './Modal'
+import Modal, { ModalClose, ModalDescription } from '../../components/ui/Modal'
 
 type RenameRoleModalProps = {
   open: boolean

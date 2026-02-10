@@ -1,16 +1,16 @@
 import type { User } from '../types'
-import Table, { type Column } from '../components/Table'
-import Avatar from '../components/Avatar'
+import Table, { type Column } from '../components/ui/Table'
+import Avatar from '../components/ui/Avatar'
 import { useDeleteUser, useUsers } from '../features/users/queries'
 import { useRoles } from '../features/roles/queries'
 import { useMemo, useState } from 'react'
 import { formatDate } from '../lib/formatDate'
-import Search from '../components/Search'
+import Search from '../components/ui/Search'
 import { useDebouncedValue } from '../lib/useDebouncedValue'
 import { Loader2 } from 'lucide-react'
-import ActionsMenu from '../components/ActionsMenu'
-import DeleteUserModal from '../components/DeleteUserModal'
-import ErrorState from '../components/ErrorState'
+import ActionsMenu from '../components/ui/ActionsMenu'
+import DeleteUserModal from '../features/users/DeleteUserModal'
+import ErrorState from '../components/ui/ErrorState'
 
 export default function Users() {
   const [search, setSearch] = useState('')
@@ -110,7 +110,6 @@ export default function Users() {
       <Search
         value={search}
         onChange={handleSearchChange}
-        placeholder="Search by name..."
         addButtonLabel="User"
       />
       <div className="relative mt-6">

@@ -1,14 +1,14 @@
 import { useState } from 'react'
-import Search from '../components/Search'
-import Table, { type Column } from '../components/Table'
+import Search from '../components/ui/Search'
+import Table, { type Column } from '../components/ui/Table'
 import { useRenameRole, useRoles } from '../features/roles/queries'
 import { formatDate } from '../lib/formatDate'
 import { useDebouncedValue } from '../lib/useDebouncedValue'
 import type { Role } from '../types/role'
 import { Loader2 } from 'lucide-react'
-import ActionsMenu from '../components/ActionsMenu'
-import RenameRoleModal from '../components/RenameRoleModal'
-import ErrorState from '../components/ErrorState'
+import ActionsMenu from '../components/ui/ActionsMenu'
+import RenameRoleModal from '../features/roles/RenameRoleModal'
+import ErrorState from '../components/ui/ErrorState'
 
 export default function Roles() {
   const [search, setSearch] = useState('')
@@ -81,7 +81,6 @@ export default function Roles() {
       <Search
         value={search}
         onChange={handleSearchChange}
-        placeholder="Search by role..."
         addButtonLabel="Role"
       />
       <div className="relative mt-6">

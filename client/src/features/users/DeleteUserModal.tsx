@@ -1,4 +1,4 @@
-import Modal, { ModalClose, ModalDescription } from './Modal'
+import Modal, { ModalClose, ModalDescription } from '../../components/ui/Modal'
 
 type DeleteUserModalProps = {
   open: boolean
@@ -18,9 +18,8 @@ export default function DeleteUserModal({
   return (
     <Modal open={open} onOpenChange={onOpenChange} title="Delete user">
       <ModalDescription className="mt-3 text-sm text-gray-400">
-        Are you sure? The user{' '}
-        <span className="font-semibold">{userName}</span> will be permanently
-        deleted.
+        Are you sure? The user <span className="font-semibold">{userName}</span>{' '}
+        will be permanently deleted.
       </ModalDescription>
 
       <div className="mt-6 flex justify-end gap-3">
